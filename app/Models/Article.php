@@ -6,12 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-    protected $fillable = [
-        'title',
-        'author',
-        'category',
-        'image_url',
-        'excerpt',
-        'content',
-    ];
+protected $fillable = [
+    'title',
+    'category',
+    'preparation_time',
+    'ingredients',
+    'preparation',
+    'user_id', 
+];
+
+public function user()
+{
+return $this->belongsTo(User::class);
+}
 }

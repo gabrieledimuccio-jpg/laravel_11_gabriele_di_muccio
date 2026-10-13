@@ -7,81 +7,103 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+/**
+* Display a listing of the resource.
+*/
 
-    public function home()
-    {
-        $articles = Article::latest()->take(3)->get();
+public function home()
+{
+$articles = Article::latest()->take(3)->get();
 
-        return view('home', compact('articles'));
-    }
+return view('welcome', compact('articles'));
+}
 
-    public function index()
-    {
-    $query = Article::query();
+public function index()
+{
 
-        if ($request->filled('search')) {
-            $search = $request->input('search');
+return view('articles.index');
+}
+// , compact('articles')
+/**
+* Show the form for creating a new resource.
+*/
 
-            $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('author', 'like', "%{$search}%")
-                  ->orWhere('category', 'like', "%{$search}%");
-            });
-        }
+public function my_ricettario()
+{
+$articles = auth()->user()->articles; 
+return view('articles.my-ricettario', compact('articles'));
+}
 
-        $articles = $query->latest()->paginate(9)->withQueryString();
+public function create()
+{
+return view('articles.create');
+}
 
-        return view('articles.index', compact('articles'));
-    }
+/**
+* Store a newly created resource in storage.
+*/
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-     return view('articles.create');
-    }
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'title'             => 'required|string|max:255',
+        'category'          => 'required|string',
+        'preparation_time'  => 'required|string', 
+        'ingredients'       => 'required|string',
+        'preparation'       => 'required|string',
+    ]);
+    $validated['user_id'] = auth()->id();
+    \App\Models\Article::create($validated);
+     return redirect()->route('my-ricettario')->with('success', 'Ricetta salvata nel tuo ricettario!');
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+}
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Article $article)
-    {
-        //
-    }
+/**
+* Display the specified resource.
+*/
+public function show(Article $article)
+{
+return view('articles.show', compact('article'));
+}
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Article $article)
-    {
-        //
-    }
+/**
+* Show the form for editing the specified resource.
+*/
+public function edit(Article $article)
+{
+return view('articles.edit', compact('article'));
+}
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Article $article)
-    {
-        //
-    }
+/**
+* Update the specified resource in storage.
+*/
+public function update(Request $request, Article $article)
+{
+// $data = $request->validate([
+// 'title' => ['required', 'string', 'max:255'],
+// 'author' => ['required', 'string', 'max:255'],
+// 'category' => ['required', 'string', 'max:255'],
+// 'image_url' => ['nullable', 'url', 'max:2048'],
+// 'excerpt' => ['nullable', 'string', 'max:1000'],
+// 'content' => ['required', 'string'],
+// ]);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Article $article)
-    {
-        //
-    }
+// $article->update($data);
+
+// return redirect()
+// ->route('articles.show', $article)
+// ->with('success', 'Articolo aggiornato con successo!');
+}
+
+/**
+* Remove the specified resource from storage.
+*/
+public function destroy(Article $article)
+{
+// $article->delete();
+
+// return redirect()
+// ->route('articles.index')
+// ->with('success', 'Articolo eliminato con successo!');
+}
 }
