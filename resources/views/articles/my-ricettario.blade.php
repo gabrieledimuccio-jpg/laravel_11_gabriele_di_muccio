@@ -1,11 +1,11 @@
 <x-layout>
     <div class="container mt-5">
-        <h1 class="mb-4 text-center">Le Mie Ricette</h1>
+        <h1 class="mb-4 text-center title">LE MIE RICETTE</h1>
         
         <div class="row">
             @forelse($articles as $article)
             <div class="col-md-4 mb-3">
-                <div class="card">
+                <div class="recipe-card text-center">
                     <div class="card-body">
                         <h5 class="card-title">{{ $article->title }}</h5>
                         <p class="card-text"><strong>Tempo:</strong> {{ $article->preparation_time }}</p>

@@ -12,13 +12,13 @@ return new class extends Migration
 public function up(): void
 {
 Schema::create('articles', function (Blueprint $table) {
-$table->id();            
+$table->id();
 $table->string('title');
-$table->string('author')->default('Redazione');
-$table->string('category')->default('Generale');
-$table->string('image_url', 2048)->nullable();
-$table->text('excerpt')->nullable();
-$table->longText('content');
+$table->string('category');
+$table->string('preparation_time'); 
+$table->text('ingredients');        
+$table->text('preparation');        
+$table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade'); 
 $table->timestamps();
 });
 }

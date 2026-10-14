@@ -20,10 +20,9 @@ return view('welcome', compact('articles'));
 
 public function index()
 {
-
-return view('articles.index');
+$articles = Article::latest()->get();
+return view('articles.index', compact('articles'));
 }
-// , compact('articles')
 /**
 * Show the form for creating a new resource.
 */
@@ -45,16 +44,16 @@ return view('articles.create');
 
 public function store(Request $request)
 {
-    $validated = $request->validate([
-        'title'             => 'required|string|max:255',
-        'category'          => 'required|string',
-        'preparation_time'  => 'required|string', 
-        'ingredients'       => 'required|string',
-        'preparation'       => 'required|string',
-    ]);
-    $validated['user_id'] = auth()->id();
-    \App\Models\Article::create($validated);
-     return redirect()->route('my-ricettario')->with('success', 'Ricetta salvata nel tuo ricettario!');
+$validated = $request->validate([
+'title'             => 'required|string|max:255',
+'category'          => 'required|string',
+'preparation_time'  => 'required|string', 
+'ingredients'       => 'required|string',
+'preparation'       => 'required|string',
+]);
+$validated['user_id'] = auth()->id();
+\App\Models\Article::create($validated);
+return redirect()->route('my-ricettario')->with('success', 'Ricetta salvata nel tuo ricettario!');
 
 }
 
@@ -79,20 +78,20 @@ return view('articles.edit', compact('article'));
 */
 public function update(Request $request, Article $article)
 {
-// $data = $request->validate([
-// 'title' => ['required', 'string', 'max:255'],
-// 'author' => ['required', 'string', 'max:255'],
-// 'category' => ['required', 'string', 'max:255'],
-// 'image_url' => ['nullable', 'url', 'max:2048'],
-// 'excerpt' => ['nullable', 'string', 'max:1000'],
-// 'content' => ['required', 'string'],
-// ]);
+$data = $request->validate([
+'title' => ['required', 'string', 'max:255'],
+'author' => ['required', 'string', 'max:255'],
+'category' => ['required', 'string', 'max:255'],
+'image_url' => ['nullable', 'url', 'max:2048'],
+'excerpt' => ['nullable', 'string', 'max:1000'],
+'content' => ['required', 'string'],
+]);
 
-// $article->update($data);
+$article->update($data);
 
-// return redirect()
-// ->route('articles.show', $article)
-// ->with('success', 'Articolo aggiornato con successo!');
+return redirect()
+->route('articles.show', $article)
+->with('success', 'Articolo aggiornato con successo!');
 }
 
 /**
@@ -100,10 +99,10 @@ public function update(Request $request, Article $article)
 */
 public function destroy(Article $article)
 {
-// $article->delete();
+$article->delete();
 
-// return redirect()
-// ->route('articles.index')
-// ->with('success', 'Articolo eliminato con successo!');
+return redirect()
+->route('my-ricettario')
+->with('success', 'Ricetta eliminata con successo!');
 }
 }

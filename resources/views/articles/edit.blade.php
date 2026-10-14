@@ -3,10 +3,10 @@
         <div class="form-container">
             <h1>Modifica Ricetta</h1>
             <p style="font-size: 0.85rem; color: #6b7280; margin-bottom: 20px;">Stai modificando una ricetta esistente</p>
-            
-            <!-- FUNZIONALITÀ UPDATE: L'action punterà alla rotta di aggiornamento (es: /recipes/update/1) -->
-            <form action="/recipes/update/1" method="POST">
-                
+
+            <form action="{{ route('update') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
                 <div class="form-group">
                     <label for="title">Titolo Ricetta *</label>
                     <input type="text" id="title" name="title" class="form-control" value="Carbonara Perfetta" required>
@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="form-actions">
-                    <a href="{{route ('show')}}" class="btn btn-secondary">Annulla</a>
+                    <a href="{{route ('show', $article)}}" class="btn btn-secondary">Annulla</a>
                     <button type="submit" class="btn btn-primary" style="background-color: #2563eb;">Aggiorna Ricetta</button>
                 </div>
             </form>
