@@ -79,19 +79,16 @@ return view('articles.edit', compact('article'));
 public function update(Request $request, Article $article)
 {
 $data = $request->validate([
-'title' => ['required', 'string', 'max:255'],
-'author' => ['required', 'string', 'max:255'],
-'category' => ['required', 'string', 'max:255'],
-'image_url' => ['nullable', 'url', 'max:2048'],
-'excerpt' => ['nullable', 'string', 'max:1000'],
-'content' => ['required', 'string'],
+'title'             => 'required|string|max:255',
+'category'          => 'required|string',
+'preparation_time'  => 'required|string',
+'ingredients'       => 'required|string',
+'preparation'       => 'required|string',
 ]);
 
 $article->update($data);
 
-return redirect()
-->route('articles.show', $article)
-->with('success', 'Articolo aggiornato con successo!');
+return redirect()->route('show', $article)->with('success', 'Articolo aggiornato con successo!');
 }
 
 /**

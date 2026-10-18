@@ -1,4 +1,4 @@
-/* --- RESET E VARIABILI --- */
+/* INIZIO VARIABILI */
 * {
     margin: 0;
     padding: 0;
@@ -24,6 +24,8 @@ body {
     flex-direction: column;
     min-height: 100vh;
 }
+/* FINE VARIABILI */
+
 
 /* INIZIO NAVBAR */
 .navbar {
@@ -149,7 +151,7 @@ body {
 }
 /* fine BUTTONS */
 
-/* --- HOMEPAGE --- */
+/* INIZIO HOMEPAGE */
 .home-card {
     background: var(--card-bg);
     text-align: center;
@@ -168,8 +170,13 @@ body {
     color: #6b7280;
     margin-bottom: 30px; 
 }
+.div1{
+    justify-content: center;
+}
+/* FINE HOMEPAGE */
 
-/* --- INDEX (GRIGLIA) --- */
+
+/* INIZIO INDEX */
 .title{
     font-family: 'Playfair-Display-SC';
     font-size: 50px;
@@ -183,7 +190,7 @@ body {
 
 .recipes-grid {
     display: grid;
-    grid-template-rows: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 25px;
 }
 
@@ -194,8 +201,7 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    width: 25%;
-    margin-left: 25px;
+    width: 100%; 
 }
 
 .card-body {
@@ -240,8 +246,10 @@ body {
     text-decoration: none; 
     font-weight: 600; 
 }
+/* FINE INDEX */
 
-/* --- STRUTTURA FORM (CREATE / EDIT) --- */
+
+/* INIZIO FORM */
 .form-container {
     max-width: 650px;
     margin: 0 auto;
@@ -287,8 +295,9 @@ body {
     padding-top: 20px;
     border-top: 1px solid var(--border-color);
 }
+/* FINE FORM */
 
-/* --- DETTAGLIO (SHOW) --- */
+/* INIZIO SHOW */
 .detail-container {
     max-width: 800px;
     margin: 0 auto;
@@ -341,8 +350,10 @@ body {
     white-space: pre-line; 
     line-height: 1.6; 
 }
+/* FINE SHOW */
 
-/* --- FOOTER COMPONENT --- */
+
+/* INIZIO FOOTER */
 .footer {
     background-color: #1f2937;
     color: #d1d5db;
@@ -358,3 +369,4 @@ body {
     font-size: 0.85rem; 
     color: #9ca3af;
 }
+/* FINE FOOTER */

@@ -4,7 +4,7 @@
             <span class="logo">👨‍🍳</span>
             <h1>Benvenuto nel tuo Ricettario Digitale</h1>
             <p>Il posto ideale per catalogare, modificare e organizzare tutte le tue creazioni culinarie.</p>
-            <div class="btn-group" style="justify-content: center;">
+            <div class="btn-group div1">
                 <a href="{{ route('index') }}" class="btn btn-primary">Esplora le Ricette</a>
                 <a href="{{ route('create') }}" class="btn btn-secondary">Aggiungi una Ricetta</a>
             </div>
