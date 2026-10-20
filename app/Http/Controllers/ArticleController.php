@@ -7,99 +7,97 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
-/**
-* Display a listing of the resource.
-*/
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $articles = Article::latest()->get();
 
-public function home()
-{
-$articles = Article::latest()->take(3)->get();
+        return view('articles.index', compact('articles'));
+    }
 
-return view('welcome', compact('articles'));
-}
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('articles.create');
+    }
 
-public function index()
-{
-$articles = Article::latest()->get();
-return view('articles.index', compact('articles'));
-}
-/**
-* Show the form for creating a new resource.
-*/
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title'            => 'required|string|max:255',
+            'category'         => 'required|string',
+            'preparation_time' => 'required|string',
+            'ingredients'      => 'required|string',
+            'preparation'      => 'required|string',
+        ]);
 
-public function my_ricettario()
-{
-$articles = auth()->user()->articles; 
-return view('articles.my-ricettario', compact('articles'));
-}
+        $validated['user_id'] = auth()->id();
 
-public function create()
-{
-return view('articles.create');
-}
+        Article::create($validated);
 
-/**
-* Store a newly created resource in storage.
-*/
+        return redirect()->route('my-ricettario')->with('success', 'Ricetta salvata nel tuo ricettario!');
+    }
 
-public function store(Request $request)
-{
-$validated = $request->validate([
-'title'             => 'required|string|max:255',
-'category'          => 'required|string',
-'preparation_time'  => 'required|string', 
-'ingredients'       => 'required|string',
-'preparation'       => 'required|string',
-]);
-$validated['user_id'] = auth()->id();
-\App\Models\Article::create($validated);
-return redirect()->route('my-ricettario')->with('success', 'Ricetta salvata nel tuo ricettario!');
+    /**
+     * Display the specified resource.
+     */
+    public function show(Article $article)
+    {
+        return view('articles.show', compact('article'));
+    }
 
-}
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Article $article)
+    {
+        return view('articles.edit', compact('article'));
+    }
 
-/**
-* Display the specified resource.
-*/
-public function show(Article $article)
-{
-return view('articles.show', compact('article'));
-}
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Article $article)
+    {
+        $data = $request->validate([
+            'title'            => 'required|string|max:255',
+            'category'         => 'required|string',
+            'preparation_time' => 'required|string',
+            'ingredients'      => 'required|string',
+            'preparation'      => 'required|string',
+        ]);
 
-/**
-* Show the form for editing the specified resource.
-*/
-public function edit(Article $article)
-{
-return view('articles.edit', compact('article'));
-}
+        $article->update($data);
 
-/**
-* Update the specified resource in storage.
-*/
-public function update(Request $request, Article $article)
-{
-$data = $request->validate([
-'title'             => 'required|string|max:255',
-'category'          => 'required|string',
-'preparation_time'  => 'required|string',
-'ingredients'       => 'required|string',
-'preparation'       => 'required|string',
-]);
+        return redirect()->route('show', $article)->with('success', 'Articolo aggiornato con successo!');
+    }
 
-$article->update($data);
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Article $article)
+    {
+        $article->delete();
 
-return redirect()->route('show', $article)->with('success', 'Articolo aggiornato con successo!');
-}
+        return redirect()
+            ->route('my-ricettario')
+            ->with('success', 'Ricetta eliminata con successo!');
+    }
 
-/**
-* Remove the specified resource from storage.
-*/
-public function destroy(Article $article)
-{
-$article->delete();
+    /**
+     * Display a listing of the user's personal resources.
+     */
+    public function my_ricettario()
+    {
+        $articles = auth()->user()->articles;
 
-return redirect()
-->route('my-ricettario')
-->with('success', 'Ricetta eliminata con successo!');
-}
+        return view('articles.my-ricettario', compact('articles'));
+    }
 }
