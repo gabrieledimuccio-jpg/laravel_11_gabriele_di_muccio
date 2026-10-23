@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -30,19 +31,23 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title'            => 'required|string|max:255',
-            'category'         => 'required|string',
-            'preparation_time' => 'required|string',
-            'ingredients'      => 'required|string',
-            'preparation'      => 'required|string',
+        $title = $request->title;
+        $category = $request->category;
+        $preparation_time = $request->preparation_time;
+        $ingredients = $request->ingredients;
+        $preparation = $request->preparation;
+
+
+        Article::create([
+            'title'=> $title,
+            'category'=> $category,
+            'preparation_time'=> $preparation_time,
+            'ingredients'=> $ingredients,
+            'preparation'=> $preparation,
+            'user_id'=> Auth::user()->id,
         ]);
 
-        $validated['user_id'] = auth()->id();
-
-        Article::create($validated);
-
-        return redirect()->route('my-ricettario')->with('success', 'Ricetta salvata nel tuo ricettario!');
+        return redirect()->route('my-ricettario')->with('message', 'Ricetta salvata nel tuo ricettario!');
     }
 
     /**

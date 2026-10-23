@@ -18,7 +18,6 @@ $table->string('category');
 $table->string('preparation_time'); 
 $table->text('ingredients');        
 $table->text('preparation');        
-$table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade'); 
 $table->timestamps();
 });
 }

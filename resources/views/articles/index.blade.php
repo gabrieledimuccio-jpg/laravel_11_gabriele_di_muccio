@@ -16,7 +16,7 @@
                         <p class="mt-1"><strong>Ingredienti:</strong> {{ str()->limit($article->ingredients, 100) }}</p>
                     </div>
                     <div class="card-footer">
-                        <span class="data">Aggiunta: {{ $article->created_at->format('d/m/Y') }}</span>
+                        <span class="data">Aggiunta da: {{ $article->user->name }} <br> {{ $article->created_at->format('d/m/Y') }}</span>
                         <a href="{{ route('show', $article) }}" class="link-detail">Vedi Dettaglio &rarr;</a>
                     </div>
                 </div>
